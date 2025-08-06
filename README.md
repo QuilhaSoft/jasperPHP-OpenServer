@@ -1,4 +1,4 @@
-# Quilhasoft/JasperPHP-OpenServer
+# QuilhaSoft/JasperPHP-OpenServer
 
 This project provides a web interface for managing and executing JasperReports, integrated with a Laravel backend and a Vue.js frontend. It allows you to upload JasperReports (`.jrxml`) files, manage data sources, and execute reports in various formats.
 
