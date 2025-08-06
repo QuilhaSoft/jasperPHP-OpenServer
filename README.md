@@ -77,6 +77,10 @@ Follow these steps to get the project up and running using Docker:
     ```bash
     docker-compose exec app php artisan migrate --seed
     ```
+9.  **Default user end password:**
+    'name' => 'Admin'
+    'email' => 'admin@example.com'
+    'password' => 'password'
 
 ## Configuration
 
