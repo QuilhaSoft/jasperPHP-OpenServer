@@ -37,6 +37,18 @@
           hint="Enter JSON or SQL data for the report."
         ></v-textarea>
 
+        <v-textarea
+          v-model="jsonParams"
+          label="JSON Parameters (optional)"
+          rows="3"
+          hint="Enter a JSON array of parameters for the report."
+        ></v-textarea>
+
+        <v-checkbox
+          v-model="debugMode"
+          label="Debug Mode"
+        ></v-checkbox>
+
         <v-btn type="submit" color="primary" :loading="reportStore.loading">Execute</v-btn>
       </v-form>
 
@@ -61,6 +73,8 @@ const selectedReportId = ref<number | null>(null);
 const selectedDataSourceId = ref<number | null>(null);
 const reportFormat = ref('pdf'); // Default format
 const jsonData = ref('');
+const jsonParams = ref('');
+const debugMode = ref(false);
 
 const showJsonDataField = computed(() => {
   if (!selectedDataSourceId.value) return false;
@@ -78,6 +92,7 @@ const executeReport = async () => {
     report_id: selectedReportId.value,
     data_source_id: selectedDataSourceId.value,
     format: reportFormat.value,
+    debug: debugMode.value,
   };
 
   if (jsonData.value) {
@@ -89,6 +104,15 @@ const executeReport = async () => {
     }
   } else {
     payload.json_data = {}; // Envia um objeto vazio se o campo estiver vazio
+  }
+
+  if (jsonParams.value) {
+    try {
+      payload.json_params = JSON.parse(jsonParams.value);
+    } catch (e) {
+      alert('Invalid JSON for parameters.');
+      return;
+    }
   }
 
   await reportStore.executeReport(payload);

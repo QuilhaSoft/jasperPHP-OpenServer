@@ -132,6 +132,7 @@ class ReportController extends Controller
             'format' => 'required|string|in:pdf,txt,xls,xlsx,docx',
             'parameters' => 'nullable|array',
             'json_data' => 'nullable|array',
+            'debug_mode' => 'nullable|boolean'
         ]);
 
         $report = Report::find($request->report_id);
@@ -143,6 +144,9 @@ class ReportController extends Controller
         $inputFilePath = Storage::disk('private')->path($report->file_path);
         $reportFormat = $request->format;
         $reportParameters = $request->parameters ?? [];
+        $debugMode = $request->debug_mode ?? false;
+
+        $reportParameters['type'] = $reportFormat;
         $dataSourceConfig = [
             'type' => 'array',
             'data' => [], // Default to empty array data source
@@ -153,7 +157,6 @@ class ReportController extends Controller
             if (!$dataSource || $dataSource->user_id !== auth()->id()) {
                 return response()->json(['message' => 'Data Source Unauthorized or Not Found'], Response::HTTP_FORBIDDEN);
             }
-
             if ($dataSource->type === 'json' || $dataSource->type === 'array') {
                 $dataSourceConfig = [
                     'type' => 'array',
@@ -179,8 +182,8 @@ class ReportController extends Controller
             ];
         }
 
-        try {
-            $jasper = new TJasper($inputFilePath, ['type' => $reportFormat, 'params' => $reportParameters], $dataSourceConfig);
+        // try {
+            $jasper = new TJasper($inputFilePath,$reportParameters, $dataSourceConfig,$debugMode);
             $reportContent = $jasper->output('S');
 
             $contentType = '';
@@ -206,8 +209,8 @@ class ReportController extends Controller
             }
 
             return response($reportContent, 200)->header('Content-Type', $contentType);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Report generation failed', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json(['message' => 'Report generation failed', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        // }
     }
 }
