@@ -64,7 +64,7 @@ Follow these steps to get the project up and running using Docker:
     ```bash
     cp backend12/.env.example backend12/.env
     ```
-    Open `backend12/.env` and configure your database connection and other settings. Ensure `JASPER_API_URL`, `JASPER_USERNAME`, and `JASPER_PASSWORD` are correctly set to point to your JasperReports Server instance.
+    Open `backend12/.env` and configure your database connection and other settings.
 
 7.  **Generate Application Key:**
     Generate a unique application key for Laravel:
