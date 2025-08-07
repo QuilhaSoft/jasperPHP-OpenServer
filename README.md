@@ -89,10 +89,7 @@ Follow these steps to get the project up and running using Docker:
 The `backend12/.env` file is crucial for configuring the application. Key variables include:
 
 *   `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`: Your database connection details.
-*   `JASPER_API_URL`: The base URL of your JasperReports Server REST API (e.g., `http://your-jasper-server:8080/jasperserver/rest_v2/`).
-*   `JASPER_USERNAME`: Username for authenticating with JasperReports Server.
-*   `JASPER_PASSWORD`: Password for authenticating with JasperReports Server.
-
+*   Or use embeded default sqlite database
 ## Usage
 
 After completing the installation and configuration steps, the application should be accessible via your web browser:
